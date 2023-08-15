@@ -2,10 +2,11 @@ import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
 const gallery = document.querySelector(".gallery");
+const itemsArray = [];
 
 galleryItems.forEach((item) => {
   let listItem = document.createElement("li");
-  gallery.append(listItem);
+  itemsArray.push(listItem);
   listItem.insertAdjacentHTML(
     "beforeend",
     `<div class="gallery__item">
@@ -21,6 +22,7 @@ galleryItems.forEach((item) => {
   );
 });
 
+gallery.append(...itemsArray);
 gallery.addEventListener("click", imageClick);
 
 function imageClick(e) {
@@ -30,13 +32,21 @@ function imageClick(e) {
   }
 
   const instance = basicLightbox.create(`
-    <img src="${e.target.dataset.source}" width="800" height="600">
+    <img src="${e.target.dataset.source}" alt="${e.target.description}" width="800" height="600">
 `);
   instance.show();
 
-  gallery.addEventListener("keydown", (e) => {
-    if (e.code === "Escape") {
-      instance.close();
-    }
-  });
+  if (instance.show) {
+    gallery.addEventListener("keydown", (e) => {
+      if (e.code === "Escape") {
+        instance.close();
+      }
+    });
+  } else {
+    gallery.removeEventListener("keydown", (e) => {
+      if (e.code === "Escape") {
+        instance.close();
+      }
+    });
+  }
 }

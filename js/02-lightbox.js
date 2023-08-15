@@ -2,18 +2,27 @@ import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
 const gallery = document.querySelector(".gallery");
+const itemsArray = [];
 
 galleryItems.forEach((item) => {
   let listItem = document.createElement("li");
-  gallery.append(listItem);
+  itemsArray.push(listItem);
   listItem.insertAdjacentHTML(
     "beforeend",
-    `<a class="gallery__item" href="${item.original}">
-    <img class="gallery__image" src="${item.preview}" alt="${item.description}" />
-  </a>`
+    `<div class="gallery__item">
+  <a class="gallery__link" href="${item.original}">
+    <img
+      class="gallery__image"
+      src="${item.preview}"
+      data-source="${item.original}"
+      alt="${item.description}"
+    />
+  </a>
+</div>`
   );
 });
 
+gallery.append(...itemsArray);
 gallery.addEventListener("click", clickImage);
 
 function clickImage(e) {
