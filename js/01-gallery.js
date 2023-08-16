@@ -31,22 +31,20 @@ function imageClick(e) {
     return;
   }
 
+  const closeInstance = (e) => {
+    if (e.code === "Escape") {
+      instance.close();
+    }
+  };
+
   const instance = basicLightbox.create(`
     <img src="${e.target.dataset.source}" alt="${e.target.description}" width="800" height="600">
 `);
   instance.show();
 
   if (instance.show) {
-    gallery.addEventListener("keydown", (e) => {
-      if (e.code === "Escape") {
-        instance.close();
-      }
-    });
+    gallery.addEventListener("keydown", closeInstance);
   } else {
-    gallery.removeEventListener("keydown", (e) => {
-      if (e.code === "Escape") {
-        instance.close();
-      }
-    });
+    gallery.removeEventListener("keydown", closeInstance);
   }
 }
